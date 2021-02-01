@@ -1,6 +1,22 @@
 cli
 ===
 
+## Ally Dale(vipally@gmail.com) Changelist:
+- refer to [https://github.com/vipally/cmdline](https://github.com/vipally/cmdline)
+- add Parse function
+- add no-name flags
+- add Detail and Summary description
+1.  Add LogicName and Required field for flag, and modify the flag define interface
+2.  Add Summary and Details and Version info to usage page
+3.  Add labels <thiscmd> <buildtime> <version> for getting runtime info in usage page
+4.  Add interface GetUsage() string
+5.  Modify Parse() logic
+6.  Add no-name flag support
+7.  Add "/flag" style support, named flags can lead with "/" or "-" or "--"
+8.  Fix "-flag = x" or "-flag= x" or "-flag =x" cause panic bug
+9.  Add synonyms support for with-name flags
+10. Format usage page line head with proper num of space
+
 [![GoDoc](https://godoc.org/github.com/urfave/cli?status.svg)](https://pkg.go.dev/github.com/urfave/cli/v2)
 [![codebeat](https://codebeat.co/badges/0a8f30aa-f975-404b-b878-5fab3ae1cc5f)](https://codebeat.co/projects/github-com-urfave-cli)
 [![Go Report Card](https://goreportcard.com/badge/urfave/cli)](https://goreportcard.com/report/urfave/cli)
