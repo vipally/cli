@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	gNoNamePrefix = "{noname#"
+	noNameFlagPrefix = "{noname#"
 )
 
 var expTag = regexp.MustCompile("<([A-Za-z][a-zA-Z0-9_]*)>")
