@@ -22,40 +22,31 @@ func isSpace(c byte) bool {
 func SplitCommandLine(s string) []string {
 	wordStart := 0
 	inString := 0
-	escape := 0
 	lastQuot := byte(0)
 
-	const lenSep = 1
 	out := make([]string, 0, len(s)/3)
-	for i := 0; i+lenSep <= len(s); i++ {
+	for i := 0; i < len(s); i++ {
 		// consider " xxx 'yyy' zzz" as a single string
 		// " xxxx yyyy " case, do not include "
 		c := s[i]
-		if c == '\'' || c == '"' {
-			if inString%2 == 0 || lastQuot == c {
-				inString++
-				escape = 0
-				lastQuot = c
-			}
-		} else {
-			if !isSpace(c) {
-				escape = 0
-			}
+		if c == '\'' || c == '"' && (inString%2 == 0 || lastQuot == c) {
+			inString++
+			lastQuot = c
 		}
 
 		if inString%2 == 0 && isSpace(c) {
 			if wordStart == i { //escape continuous space
-				wordStart += lenSep
+				wordStart += 1
 			} else {
-				out = append(out, s[wordStart+escape:i-escape])
-				wordStart = i + lenSep
-				i += (lenSep - 1)
+				out = append(out, s[wordStart:i])
+				wordStart = i + 1
 			}
 		}
 	}
 
+	//NOTE: unclosed quotes will return the left parts
 	if wordStart < len(s) {
-		out = append(out, s[wordStart+escape:len(s)-escape])
+		out = append(out, s[wordStart:len(s)])
 	}
 
 	return out
