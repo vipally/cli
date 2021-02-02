@@ -9,7 +9,8 @@ import (
 	"regexp"
 )
 
-var ( //new line with any \t
+var (
+	//new line with any \t
 	lineHeadExpr = regexp.MustCompile(`(?m)^[\t ]*`)
 )
 
@@ -18,49 +19,50 @@ func isSpace(c byte) bool {
 }
 
 //SplitLine splits a command-line text separated with any ' ' or '\t'
-func SplitLine(s string) []string {
-	n := (len(s) + 1) / 2
-	lenSep := 1
-	start := 0
-	a := make([]string, n)
-	na := 0
+func SplitCommandLine(s string) []string {
+	wordStart := 0
 	inString := 0
 	escape := 0
 	lastQuot := byte(0)
-	for i := 0; i+lenSep <= len(s) && na+1 < n; i++ {
+
+	const lenSep = 1
+	out := make([]string, 0, len(s)/3)
+	for i := 0; i+lenSep <= len(s); i++ {
 		// consider " xxx 'yyy' zzz" as a single string
-		// " xxxx yyyy " case, do not include \"
-		if (s[i] == '\'' || s[i] == '"') && (inString%2 == 0 || lastQuot == s[i]) {
-			inString++
-			escape = 0
-			lastQuot = s[i]
+		// " xxxx yyyy " case, do not include "
+		c := s[i]
+		if c == '\'' || c == '"' {
+			if inString%2 == 0 || lastQuot == c {
+				inString++
+				escape = 0
+				lastQuot = c
+			}
 		} else {
-			if !isSpace(s[i]) {
+			if !isSpace(c) {
 				escape = 0
 			}
 		}
-		if inString%2 == 0 && isSpace(s[i]) {
-			if start == i { //escape continuous space
-				start += lenSep
+
+		if inString%2 == 0 && isSpace(c) {
+			if wordStart == i { //escape continuous space
+				wordStart += lenSep
 			} else {
-				a[na] = s[start+escape : i-escape]
-				na++
-				start = i + lenSep
-				i += lenSep - 1
+				out = append(out, s[wordStart+escape:i-escape])
+				wordStart = i + lenSep
+				i += (lenSep - 1)
 			}
 		}
 	}
-	if start < len(s) {
-		a[na] = s[start+escape : len(s)-escape]
-	} else {
-		na--
+
+	if wordStart < len(s) {
+		out = append(out, s[wordStart+escape:len(s)-escape])
 	}
 
-	return a[0 : na+1]
+	return out
 }
 
 //FormatLineHead ensure all lines of s are lead with linehead string
-func FormatLineHead(s, lineHead string) (r string) {
-	r = lineHeadExpr.ReplaceAllString(s, lineHead)
-	return
+func FormatLineHead(s, lineHead string) string {
+	r := lineHeadExpr.ReplaceAllString(s, lineHead)
+	return r
 }

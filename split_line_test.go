@@ -3,18 +3,16 @@
 // Blog    : http://blog.csdn.net/vipally
 // Site    : https://github.com/vipally
 
-package cli_test
+package cli
 
 import (
 	"fmt"
 	"testing"
-
-	"github.com/urfave/cli/v2"
 )
 
 func TestSplitLine(t *testing.T) {
-	s := `ping 127.0.0.1 		 -n= 	2   " --x = 5 "  "--help"	a`
-	cmd := cmdline.SplitLine(s)
+	s := `ping 127.0.0.1 		 -n= 	2   " --x = 5 "  "--help"	a /b`
+	cmd := SplitCommandLine(s)
 	result := []string{
 		"ping",
 		"127.0.0.1",
@@ -23,6 +21,7 @@ func TestSplitLine(t *testing.T) {
 		`" --x = 5 "`,
 		`"--help"`,
 		"a",
+		"/b",
 	}
 	suc := true
 	if len(cmd) == len(result) {
