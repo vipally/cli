@@ -8,6 +8,7 @@ import (
 
 // UintFlag is a flag with type uint
 type UintFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

@@ -3,6 +3,14 @@ cli
 
 ## Ally Dale(vipally@gmail.com) Changelist:
 - refer to [https://github.com/vipally/cmdline](https://github.com/vipally/cmdline)
+- add LogicName for every flag
+- add no-name flag support
+- add / lead flag on windows platform
+- Fix "-flag = x" or "-flag= x" or "-flag =x" cause panic bug
+- add internel label <thisapp> <version> <buildtime> of app infor for descriptions
+- add GetUsage() function
+
+```
 - add Parse function
 - add no-name flags
 - add Detail and Summary description
@@ -16,6 +24,7 @@ cli
 8.  Fix "-flag = x" or "-flag= x" or "-flag =x" cause panic bug
 9.  Add synonyms support for with-name flags
 10. Format usage page line head with proper num of space
+```
 
 [![GoDoc](https://godoc.org/github.com/urfave/cli?status.svg)](https://pkg.go.dev/github.com/urfave/cli/v2)
 [![codebeat](https://codebeat.co/badges/0a8f30aa-f975-404b-b878-5fab3ae1cc5f)](https://codebeat.co/projects/github-com-urfave-cli)

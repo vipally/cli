@@ -8,6 +8,7 @@ import (
 
 // IntFlag is a flag with type int
 type IntFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

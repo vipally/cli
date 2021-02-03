@@ -8,6 +8,7 @@ import (
 
 // Float64Flag is a flag with type float64
 type Float64Flag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

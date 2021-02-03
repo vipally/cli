@@ -75,6 +75,7 @@ func (f *Float64Slice) Get() interface{} {
 
 // Float64SliceFlag is a flag with type *Float64Slice
 type Float64SliceFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

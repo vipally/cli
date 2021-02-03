@@ -70,6 +70,7 @@ func (s *StringSlice) Get() interface{} {
 
 // StringSliceFlag is a flag with type *StringSlice
 type StringSliceFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

@@ -4,6 +4,7 @@ import "flag"
 
 // StringFlag is a flag with type string
 type StringFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string
