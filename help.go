@@ -21,7 +21,7 @@ var helpCommand = &Command{
 			return ShowCommandHelp(c, args.First())
 		}
 
-		_ = ShowAppHelp(c)
+		_ = ShowAppHelp(c, nil)
 		return nil
 	},
 }
@@ -66,12 +66,17 @@ var VersionPrinter = printVersion
 
 // ShowAppHelpAndExit - Prints the list of subcommands for the app and exits with exit code.
 func ShowAppHelpAndExit(c *Context, exitCode int) {
-	_ = ShowAppHelp(c)
+	_ = ShowAppHelp(c, nil)
 	os.Exit(exitCode)
 }
 
 // ShowAppHelp is an action that displays the help.
-func ShowAppHelp(c *Context) error {
+func ShowAppHelp(c *Context, err error) error {
+	if err != nil {
+		s := fmt.Sprintf("!!ERROR: %s\n", err)
+		c.App.Writer.Write([]byte(s))
+	}
+
 	tpl := c.App.CustomAppHelpTemplate
 	if tpl == "" {
 		tpl = AppHelpTemplate
@@ -318,7 +323,7 @@ func checkHelp(c *Context) bool {
 }
 
 func checkCommandHelp(c *Context, name string) bool {
-	if c.Bool("h") || c.Bool("help") {
+	if c.Bool("h") || c.Bool("help") || c.Bool("?") {
 		_ = ShowCommandHelp(c, name)
 		return true
 	}

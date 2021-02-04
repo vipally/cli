@@ -40,7 +40,7 @@ var VersionFlag Flag = &BoolFlag{
 // will still be added unless HideHelp or HideHelpCommand is set to true.
 var HelpFlag Flag = &BoolFlag{
 	Name:    "help",
-	Aliases: []string{"h"},
+	Aliases: []string{"h", "?"},
 	Usage:   "show help",
 }
 

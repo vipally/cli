@@ -87,42 +87,86 @@ or available locally via: info '(coreutils) cp invocation'
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
 	app := &cli.App{
-		Name:                   "cp",
-		Usage:                  "cp command summary",
-		Description:            "cp command detail",
+		Name:  "cp",
+		Usage: "cp summary info",
+		Description: ` 
+cp detail info
+cp detail info2
+cp detail info3
+`,
 		UseShortOptionHandling: true,
+		Version:                "v0.0.1",
+		ReleaseDate:            "2021-02-04",
+		Copyright:              "copyright @some-INC",
+		Authors: []*cli.Author{
+			&cli.Author{"author1", "author1@some-inc.com"},
+			&cli.Author{"author2", "author2@other-inc.com"},
+		},
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
-				Name:    "start",
-				Aliases: []string{"s"},
+				Name:    "verbose",
+				Value:   true,
+				Aliases: []string{"V"},
+				Usage:   "verbose",
 			},
 			&cli.BoolFlag{
-				Name:    "tail",
-				Aliases: []string{"t"},
+				Name:    "force",
+				Value:   true,
+				Aliases: []string{"f"},
+				Usage:   "force",
+			},
+			&cli.BoolFlag{
+				Name:     "recursive",
+				Aliases:  []string{"R", "r"},
+				Required: true,
+				Usage:    "recursive",
 			},
 			&cli.StringFlag{
-				Name:    "xxx",
-				Aliases: []string{"x"},
+				Name:      "link",
+				Aliases:   []string{"l"},
+				LogicName: "url",
+				Usage:     "link url",
+			},
+			&cli.StringSliceFlag{
+				Name:      "0",
+				LogicName: "SOURCE",
+				Usage:     "source path",
 			},
 			&cli.StringFlag{
-				Name:  "_",
-				Usage: "source file",
-			},
-			&cli.StringFlag{
-				Name:  "_",
-				Usage: "destnation file",
+				Name:      "1",
+				LogicName: "DEST",
+				Usage:     "destnation path",
 			},
 		},
+		Action: func(ctx *cli.Context) error {
+			fmt.Println(ctx.LocalFlagNames())
+			fmt.Println(ctx.FlagNames())
+			for i, v := range ctx.FlagNames() {
+				fmt.Printf("%d %s %+v\n", i, v, ctx.Value(v))
+			}
+			err := ctx.Err()
+			fmt.Println(err)
+			if err == nil {
+				cli.ShowAppHelp(ctx, nil)
+			}
+			return nil
+		},
 	}
-	line := `cp -st -x = "x" "/a b" /b`
-	args := cli.SplitCommandLine(line)
-	fmt.Printf("%+v\n", args)
-	app.Run(args)
-	//(&cli.App{}).Run([]string{})
+	line := `cp -rf -V=false -v=0 --link="link url" -0=x-y,z -1="/a"`
+	args := os.Args
+	if len(args) <= 1 {
+		args = cli.SplitCommandLine(line)
+	}
+	fmt.Printf("args: %+v\n\n", args)
+	if err := app.Run(args); err != nil {
+		err = err
+		//fmt.Println(err)
+	}
 }

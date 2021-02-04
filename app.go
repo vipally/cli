@@ -35,6 +35,8 @@ type App struct {
 	ArgsUsage string
 	// Version of the program
 	Version string
+	// Release date of this program
+	ReleaseDate string
 	// Description of the program
 	Description string
 	// List of commands to execute
@@ -248,7 +250,7 @@ func (a *App) RunContext(ctx context.Context, arguments []string) (err error) {
 	context := NewContext(a, set, &Context{Context: ctx})
 	if nerr != nil {
 		_, _ = fmt.Fprintln(a.Writer, nerr)
-		_ = ShowAppHelp(context)
+		_ = ShowAppHelp(context, nerr)
 		return nerr
 	}
 	context.shellComplete = shellComplete
@@ -264,12 +266,12 @@ func (a *App) RunContext(ctx context.Context, arguments []string) (err error) {
 			return err
 		}
 		_, _ = fmt.Fprintf(a.Writer, "%s %s\n\n", "Incorrect Usage.", err.Error())
-		_ = ShowAppHelp(context)
+		_ = ShowAppHelp(context, err)
 		return err
 	}
 
 	if !a.HideHelp && checkHelp(context) {
-		_ = ShowAppHelp(context)
+		_ = ShowAppHelp(context, nil)
 		return nil
 	}
 
@@ -280,7 +282,7 @@ func (a *App) RunContext(ctx context.Context, arguments []string) (err error) {
 
 	cerr := context.checkRequiredFlags(a.Flags)
 	if cerr != nil {
-		_ = ShowAppHelp(context)
+		_ = ShowAppHelp(context, cerr)
 		return cerr
 	}
 

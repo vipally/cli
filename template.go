@@ -10,14 +10,17 @@ USAGE:
    {{if .UsageText}}{{.UsageText}}{{else}}{{.HelpName}} {{if .VisibleFlags}}[global options]{{end}}{{if .Commands}} command [command options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[arguments...]{{end}}{{end}}{{if .Version}}{{if not .HideVersion}}
 
 VERSION:
-   {{.Version}}{{end}}{{end}}{{if .Description}}
+   {{.Version}}{{if .ReleaseDate}} [{{.ReleaseDate}}]{{end}}{{end}}{{end}}{{if .Copyright}}
 
-DESCRIPTION:
-   {{.Description | nindent 3 | trim}}{{end}}{{if len .Authors}}
+COPYRIGHT:
+   {{.Copyright}}{{end}}{{if len .Authors}}
 
 AUTHOR{{with $length := len .Authors}}{{if ne 1 $length}}S{{end}}{{end}}:
    {{range $index, $author := .Authors}}{{if $index}}
-   {{end}}{{$author}}{{end}}{{end}}{{if .VisibleCommands}}
+   {{end}}{{$author}}{{end}}{{end}}{{if .Description}}
+
+DESCRIPTION:
+   {{.Description | nindent 3 | trim}}{{end}}{{if .VisibleCommands}}
 
 COMMANDS:{{range .VisibleCategories}}{{if .Name}}
    {{.Name}}:{{range .VisibleCommands}}
@@ -26,10 +29,7 @@ COMMANDS:{{range .VisibleCategories}}{{if .Name}}
 
 GLOBAL OPTIONS:
    {{range $index, $option := .VisibleFlags}}{{if $index}}
-   {{end}}{{$option}}{{end}}{{end}}{{if .Copyright}}
-
-COPYRIGHT:
-   {{.Copyright}}{{end}}
+   {{end}}{{$option}}{{end}}{{end}}
 `
 
 // CommandHelpTemplate is the text template for the command help topic.

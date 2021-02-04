@@ -17,7 +17,7 @@ func Test_ShowAppHelp_NoAuthor(t *testing.T) {
 
 	c := NewContext(app, nil, nil)
 
-	_ = ShowAppHelp(c)
+	_ = ShowAppHelp(c, nil)
 
 	if bytes.Contains(output.Bytes(), []byte("AUTHOR(S):")) {
 		t.Errorf("expected\n%snot to include %s", output.String(), "AUTHOR(S):")
@@ -32,7 +32,7 @@ func Test_ShowAppHelp_NoVersion(t *testing.T) {
 
 	c := NewContext(app, nil, nil)
 
-	_ = ShowAppHelp(c)
+	_ = ShowAppHelp(c, nil)
 
 	if bytes.Contains(output.Bytes(), []byte("VERSION:")) {
 		t.Errorf("expected\n%snot to include %s", output.String(), "VERSION:")
@@ -47,7 +47,7 @@ func Test_ShowAppHelp_HideVersion(t *testing.T) {
 
 	c := NewContext(app, nil, nil)
 
-	_ = ShowAppHelp(c)
+	_ = ShowAppHelp(c, nil)
 
 	if bytes.Contains(output.Bytes(), []byte("VERSION:")) {
 		t.Errorf("expected\n%snot to include %s", output.String(), "VERSION:")
@@ -63,7 +63,7 @@ func Test_ShowAppHelp_MultiLineDescription(t *testing.T) {
 
 	c := NewContext(app, nil, nil)
 
-	_ = ShowAppHelp(c)
+	_ = ShowAppHelp(c, nil)
 
 	if !bytes.Contains(output.Bytes(), []byte("DESCRIPTION:\n   multi\n     line")) {
 		t.Errorf("expected\n%s\nto include\n%s", output.String(), "DESCRIPTION:\n   multi\n     line")
