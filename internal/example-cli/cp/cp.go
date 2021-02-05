@@ -133,11 +133,32 @@ cp detail info3
 				Aliases:   []string{"l"},
 				LogicName: "url",
 				Usage:     "link url",
+				Value:     "default",
 			},
 			&cli.StringSliceFlag{
 				Name:      "0",
 				LogicName: "SOURCE",
 				Usage:     "source path",
+				Value:     cli.NewStringSlice("default1", "default2"),
+			},
+			&cli.Float64SliceFlag{
+				Name:        "fs",
+				LogicName:   "",
+				Usage:       "Float64SliceFlag",
+				Value:       cli.NewFloat64Slice(1.1, 2.2),
+				DefaultText: "[1.1,2.2]",
+			},
+			&cli.Int64SliceFlag{
+				Name:      "i64s",
+				LogicName: "",
+				Usage:     "Int64SliceFlag",
+				Value:     cli.NewInt64Slice(1, 2),
+			},
+			&cli.IntSliceFlag{
+				Name:      "is",
+				LogicName: "",
+				Usage:     "IntSliceFlag",
+				Value:     cli.NewIntSlice(1, 2),
 			},
 			&cli.StringFlag{
 				Name:      "1",
@@ -151,6 +172,7 @@ cp detail info3
 			for i, v := range ctx.FlagNames() {
 				fmt.Printf("%d %s %+v\n", i, v, ctx.Value(v))
 			}
+			fmt.Printf("%s %+v\n", "-0", ctx.Value("0"))
 			err := ctx.Err()
 			fmt.Println(err)
 			if err == nil {
@@ -159,7 +181,7 @@ cp detail info3
 			return nil
 		},
 	}
-	line := `cp -rf -V=false -v=0 --link="link url" -0=x-y,z -1="/a"`
+	line := `cp -rf -V=false -v=0 --link="link url" -0=set13,set14 -fs=13.13 -i64s=13 -is=13 -1="/a"`
 	args := os.Args
 	if len(args) <= 1 {
 		args = cli.SplitCommandLine(line)
