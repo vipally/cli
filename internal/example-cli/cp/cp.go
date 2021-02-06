@@ -134,12 +134,14 @@ cp detail info3
 				LogicName: "url",
 				Usage:     "link url",
 				Value:     "default",
+				EnvVars:   []string{"ENV_CP_LINK"},
 			},
 			&cli.StringSliceFlag{
 				Name:      "0",
 				LogicName: "SOURCE",
 				Usage:     "source path",
 				Value:     cli.NewStringSlice("default1", "default2"),
+				EnvVars:   []string{"ENV_CP_0"},
 			},
 			&cli.Float64SliceFlag{
 				Name:        "fs",
@@ -170,7 +172,7 @@ cp detail info3
 			fmt.Println(ctx.LocalFlagNames())
 			fmt.Println(ctx.FlagNames())
 			for i, v := range ctx.FlagNames() {
-				fmt.Printf("%d %s %+v\n", i, v, ctx.Value(v))
+				fmt.Printf("%d %s %#v\n", i, v, ctx.Value(v))
 			}
 			fmt.Printf("%s %+v\n", "-0", ctx.Value("0"))
 			err := ctx.Err()
@@ -187,6 +189,10 @@ cp detail info3
 		args = cli.SplitCommandLine(line)
 	}
 	fmt.Printf("args: %+v\n\n", args)
+	os.Setenv("ENV_CP_LINK", "link_env")
+	fmt.Println("ENV_CP_LINK", os.Getenv("ENV_CP_LINK"))
+	os.Setenv("ENV_CP_0", "0_env")
+	fmt.Println("ENV_CP_0", os.Getenv("ENV_CP_0"))
 	if err := app.Run(args); err != nil {
 		err = err
 		//fmt.Println(err)
