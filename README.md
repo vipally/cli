@@ -15,6 +15,8 @@ cli
 - v2 bug: accept multi-value input on sclice flags
 - add SplitCommandLines
 - avoid allocate on Flag/Command name search
+- --bool=false flags
+- slice flag value don't append to default ENV or file values
 
 ```
 - add Parse function
