@@ -16,7 +16,7 @@ cli
 - add SplitCommandLines
 - avoid allocate on Flag/Command name search
 - --bool=false flags
-- slice flag value don't append to default ENV or file values
+- slice flag value don't append to default values from ENV or file 
 
 ```
 - add Parse function
