@@ -12,6 +12,9 @@ cli
 
 - v2 bug: default value changes with parsed values on slice flags
 - v2 feature: support no-name flags
+- v2 bug: accept multi-value input on sclice flags
+- add SplitCommandLines
+- avoid allocate on Flag/Command name search
 
 ```
 - add Parse function
