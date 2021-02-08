@@ -10,6 +10,9 @@ cli
 - add internel label <thisapp> <version> <buildtime> of app infor for descriptions
 - add GetUsage() function
 
+- v2 bug: default value changes with parsed values on slice flags
+- v2 feature: support no-name flags
+
 ```
 - add Parse function
 - add no-name flags
