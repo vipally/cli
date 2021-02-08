@@ -85,6 +85,122 @@ or available locally via: info '(coreutils) cp invocation'
 
 */
 
+// import (
+// 	"fmt"
+// 	"os"
+
+// 	"github.com/urfave/cli/v2"
+// )
+
+// func main() {
+// 	app := &cli.App{
+// 		Name:  "cp",
+// 		Usage: "cp summary info",
+// 		Description: `
+// cp detail info
+// cp detail info2
+// cp detail info3
+// `,
+// 		UseShortOptionHandling: true,
+// 		Version:                "v0.0.1",
+// 		ReleaseDate:            "2021-02-04",
+// 		Copyright:              "copyright @some-INC",
+// 		Authors: []*cli.Author{
+// 			&cli.Author{"author1", "author1@some-inc.com"},
+// 			&cli.Author{"author2", "author2@other-inc.com"},
+// 		},
+// 		Flags: []cli.Flag{
+// 			&cli.BoolFlag{
+// 				Name:    "verbose",
+// 				Value:   true,
+// 				Aliases: []string{"V"},
+// 				Usage:   "verbose",
+// 			},
+// 			&cli.BoolFlag{
+// 				Name:    "force",
+// 				Value:   true,
+// 				Aliases: []string{"f"},
+// 				Usage:   "force",
+// 			},
+// 			&cli.BoolFlag{
+// 				Name:     "recursive",
+// 				Aliases:  []string{"R", "r"},
+// 				Required: true,
+// 				Usage:    "recursive",
+// 			},
+// 			&cli.StringFlag{
+// 				Name:      "link",
+// 				Aliases:   []string{"l"},
+// 				LogicName: "url",
+// 				Usage:     "link url",
+// 				Value:     "default",
+// 				EnvVars:   []string{"ENV_CP_LINK"},
+// 			},
+// 			&cli.StringSliceFlag{
+// 				Name:      "0",
+// 				LogicName: "SOURCE",
+// 				Usage:     "source path",
+// 				Value:     cli.NewStringSlice("default1", "default2"),
+// 				EnvVars:   []string{"ENV_CP_0"},
+// 			},
+// 			&cli.Float64SliceFlag{
+// 				Name:        "fs",
+// 				LogicName:   "",
+// 				Usage:       "Float64SliceFlag",
+// 				Value:       cli.NewFloat64Slice(1.1, 2.2),
+// 				DefaultText: "[1.1,2.2]",
+// 			},
+// 			&cli.Int64SliceFlag{
+// 				Name:      "i64s",
+// 				LogicName: "",
+// 				Usage:     "Int64SliceFlag",
+// 				Value:     cli.NewInt64Slice(1, 2),
+// 			},
+// 			&cli.IntSliceFlag{
+// 				Name:      "is",
+// 				LogicName: "",
+// 				Usage:     "IntSliceFlag",
+// 				Value:     cli.NewIntSlice(1, 2),
+// 			},
+// 			&cli.StringFlag{
+// 				Name:      "1",
+// 				LogicName: "DEST",
+// 				Usage:     "destnation path",
+// 			},
+// 		},
+// 		Action: func(ctx *cli.Context) error {
+// 			fmt.Println(ctx.LocalFlagNames())
+// 			fmt.Println(ctx.FlagNames())
+// 			for i, v := range ctx.FlagNames() {
+// 				fmt.Printf("%d %s %#v\n", i, v, ctx.Value(v))
+// 			}
+// 			fmt.Printf("%s %+v\n", "-0", ctx.Value("0"))
+// 			err := ctx.Err()
+// 			fmt.Println(err)
+// 			if err == nil {
+// 				cli.ShowAppHelp(ctx, nil)
+// 			}
+// 			return nil
+// 		},
+// 	}
+// 	line := `cp -rf -V=false -v=0 --link="link url" -0=set13,set14 -fs=13.13 -i64s=13 -is=13 -1="/a"`
+// 	args := os.Args
+// 	if len(args) <= 1 {
+// 		args = cli.SplitCommandLine(line)
+// 	}
+// 	fmt.Printf("args: %+v\n\n", args)
+// 	os.Setenv("ENV_CP_LINK", "link_env")
+// 	fmt.Println("ENV_CP_LINK", os.Getenv("ENV_CP_LINK"))
+// 	os.Setenv("ENV_CP_0", "0_env")
+// 	fmt.Println("ENV_CP_0", os.Getenv("ENV_CP_0"))
+// 	if err := app.Run(args); err != nil {
+// 		err = err
+// 		//fmt.Println(err)
+// 	}
+// }
+
+//package main
+
 import (
 	"fmt"
 	"os"
@@ -93,108 +209,27 @@ import (
 )
 
 func main() {
-	app := &cli.App{
-		Name:  "cp",
-		Usage: "cp summary info",
-		Description: ` 
-cp detail info
-cp detail info2
-cp detail info3
-`,
-		UseShortOptionHandling: true,
-		Version:                "v0.0.1",
-		ReleaseDate:            "2021-02-04",
-		Copyright:              "copyright @some-INC",
-		Authors: []*cli.Author{
-			&cli.Author{"author1", "author1@some-inc.com"},
-			&cli.Author{"author2", "author2@other-inc.com"},
-		},
-		Flags: []cli.Flag{
-			&cli.BoolFlag{
-				Name:    "verbose",
-				Value:   true,
-				Aliases: []string{"V"},
-				Usage:   "verbose",
-			},
-			&cli.BoolFlag{
-				Name:    "force",
-				Value:   true,
-				Aliases: []string{"f"},
-				Usage:   "force",
-			},
-			&cli.BoolFlag{
-				Name:     "recursive",
-				Aliases:  []string{"R", "r"},
-				Required: true,
-				Usage:    "recursive",
-			},
-			&cli.StringFlag{
-				Name:      "link",
-				Aliases:   []string{"l"},
-				LogicName: "url",
-				Usage:     "link url",
-				Value:     "default",
-				EnvVars:   []string{"ENV_CP_LINK"},
-			},
-			&cli.StringSliceFlag{
-				Name:      "0",
-				LogicName: "SOURCE",
-				Usage:     "source path",
-				Value:     cli.NewStringSlice("default1", "default2"),
-				EnvVars:   []string{"ENV_CP_0"},
-			},
-			&cli.Float64SliceFlag{
-				Name:        "fs",
-				LogicName:   "",
-				Usage:       "Float64SliceFlag",
-				Value:       cli.NewFloat64Slice(1.1, 2.2),
-				DefaultText: "[1.1,2.2]",
-			},
-			&cli.Int64SliceFlag{
-				Name:      "i64s",
-				LogicName: "",
-				Usage:     "Int64SliceFlag",
-				Value:     cli.NewInt64Slice(1, 2),
-			},
-			&cli.IntSliceFlag{
-				Name:      "is",
-				LogicName: "",
-				Usage:     "IntSliceFlag",
-				Value:     cli.NewIntSlice(1, 2),
-			},
-			&cli.StringFlag{
-				Name:      "1",
-				LogicName: "DEST",
-				Usage:     "destnation path",
-			},
-		},
-		Action: func(ctx *cli.Context) error {
-			fmt.Println(ctx.LocalFlagNames())
-			fmt.Println(ctx.FlagNames())
-			for i, v := range ctx.FlagNames() {
-				fmt.Printf("%d %s %#v\n", i, v, ctx.Value(v))
-			}
-			fmt.Printf("%s %+v\n", "-0", ctx.Value("0"))
-			err := ctx.Err()
-			fmt.Println(err)
-			if err == nil {
-				cli.ShowAppHelp(ctx, nil)
-			}
-			return nil
-		},
+	os.Args = []string{"multi_values",
+		"--stringSclice", "parsed1,parsed2", "--stringSclice", "parsed3,parsed4",
+		"--float64Sclice", "13.3,14.4", "--float64Sclice", "15.5,16.6",
+		"--int64Sclice", "13,14", "--int64Sclice", "15,16",
+		"--intSclice", "13,14", "--intSclice", "15,16",
 	}
-	line := `cp -rf -V=false -v=0 --link="link url" -0=set13,set14 -fs=13.13 -i64s=13 -is=13 -1="/a"`
-	args := os.Args
-	if len(args) <= 1 {
-		args = cli.SplitCommandLine(line)
+	os.Setenv("ENV_CLI_FLOAT64_SLICE", "23.3,24.4")
+	app := cli.NewApp()
+	app.Name = "multi_values"
+	app.Flags = []cli.Flag{
+		&cli.StringSliceFlag{Name: "stringSclice"},
+		&cli.Float64SliceFlag{Name: "float64Sclice", EnvVars: []string{"ENV_CLI_FLOAT64_SLICE"}},
+		&cli.Int64SliceFlag{Name: "int64Sclice"},
+		&cli.IntSliceFlag{Name: "intSclice"},
 	}
-	fmt.Printf("args: %+v\n\n", args)
-	os.Setenv("ENV_CP_LINK", "link_env")
-	fmt.Println("ENV_CP_LINK", os.Getenv("ENV_CP_LINK"))
-	os.Setenv("ENV_CP_0", "0_env")
-	fmt.Println("ENV_CP_0", os.Getenv("ENV_CP_0"))
-	if err := app.Run(args); err != nil {
-		err = err
-		//fmt.Println(err)
+	app.Action = func(ctx *cli.Context) error {
+		for i, v := range ctx.FlagNames() {
+			fmt.Printf("%d-%s %#v\n", i, v, ctx.Value(v))
+		}
+		return ctx.Err()
 	}
+
+	_ = app.Run(os.Args)
 }
