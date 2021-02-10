@@ -444,3 +444,15 @@ func flagFromEnvOrFile(envVars []string, filePath string) (val string, ok bool) 
 func flagSplitMultiValues(val string) []string {
 	return strings.Split(val, ",")
 }
+
+func mergeNames(name string, aliases *[]string) bool {
+	a := *aliases
+	if len(a) == 0 || a[len(a)-1] != name {
+		*aliases = append(*aliases, name)
+	}
+	return false
+}
+
+func name(name string, aliases []string) []string {
+	return aliases
+}
