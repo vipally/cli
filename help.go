@@ -302,6 +302,7 @@ func checkVersion(c *Context) bool {
 	for _, name := range VersionFlag.Names() {
 		if c.Bool(name) {
 			found = true
+			break
 		}
 	}
 	return found
@@ -312,6 +313,7 @@ func checkHelp(c *Context) bool {
 	for _, name := range HelpFlag.Names() {
 		if c.Bool(name) {
 			found = true
+			break
 		}
 	}
 	return found

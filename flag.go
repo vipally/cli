@@ -203,10 +203,23 @@ func withEnvHint(envVars []string, str string) string {
 	return str + envText
 }
 
-func flagNames(name string, aliases []string) []string {
-	var ret []string
+func flagNames(name string, aliases *[]string) []string {
+	fn := fullNames(name, aliases)
 
-	for _, part := range append([]string{name}, aliases...) {
+	hasV1Names := false
+	for _, part := range fn {
+		if commaWhitespace.MatchString(part) {
+			hasV1Names = true
+			break
+		}
+	}
+
+	if !hasV1Names {
+		return fn
+	}
+
+	var ret []string
+	for _, part := range fn {
 		// v1 -> v2 migration warning zone:
 		// Strip off anything after the first found comma or space, which
 		// *hopefully* makes it a tiny bit more obvious that unexpected behavior is
@@ -389,4 +402,20 @@ func flagFromEnvOrFile(envVars []string, filePath string) (val string, ok bool) 
 		}
 	}
 	return "", false
+}
+
+// mergeNames merge name to aliases if not containted
+func mergeNames(name string, aliases *[]string) (bool, []string) {
+	a := *aliases
+	if len(a) == 0 || a[0] != name {
+		*aliases = append([]string{name}, a...)
+		return true, *aliases
+	}
+	return false, *aliases
+}
+
+// fullNames return merged names of name and aliases
+func fullNames(name string, aliases *[]string) []string {
+	_, n := mergeNames(name, aliases)
+	return n
 }

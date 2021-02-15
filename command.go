@@ -201,7 +201,7 @@ func (c *Command) parseFlags(args Args, shellComplete bool) (*flag.FlagSet, erro
 
 // Names returns the names including short names and aliases.
 func (c *Command) Names() []string {
-	return append([]string{c.Name}, c.Aliases...)
+	return fullNames(c.Name, &c.Aliases)
 }
 
 // HasName returns true if Command.Name matches given name
