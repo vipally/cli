@@ -60,6 +60,7 @@ func (t *Timestamp) Get() interface{} {
 
 // TimestampFlag is a flag with type time
 type TimestampFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

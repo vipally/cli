@@ -8,6 +8,7 @@ import (
 
 // BoolFlag is a flag with type bool
 type BoolFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

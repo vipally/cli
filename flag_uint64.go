@@ -8,6 +8,7 @@ import (
 
 // Uint64Flag is a flag with type uint64
 type Uint64Flag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

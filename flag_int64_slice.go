@@ -66,6 +66,7 @@ func (i *Int64Slice) Get() interface{} {
 
 // Int64SliceFlag is a flag with type *Int64Slice
 type Int64SliceFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

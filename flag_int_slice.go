@@ -77,6 +77,7 @@ func (i *IntSlice) Get() interface{} {
 
 // IntSliceFlag is a flag with type *IntSlice
 type IntSliceFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

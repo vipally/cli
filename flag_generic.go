@@ -13,6 +13,7 @@ type Generic interface {
 
 // GenericFlag is a flag with type Generic
 type GenericFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string

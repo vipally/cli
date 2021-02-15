@@ -8,6 +8,7 @@ import (
 
 // DurationFlag is a flag with type time.Duration (see https://golang.org/pkg/time/#ParseDuration)
 type DurationFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string
