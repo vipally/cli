@@ -390,3 +390,17 @@ func flagFromEnvOrFile(envVars []string, filePath string) (val string, ok bool) 
 	}
 	return "", false
 }
+
+func flagName(name, logicName string) string {
+	if name != "" {
+		return name
+	}
+	return logicName
+}
+
+func flagLogicName(name, logicName string) string {
+	if logicName != "" {
+		return logicName
+	}
+	return name
+}
