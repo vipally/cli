@@ -404,3 +404,9 @@ func flagLogicName(name, logicName string) string {
 	}
 	return name
 }
+
+func flagCheckWithNoname(a *App) bool {
+	for _, f := range a.Flags {
+
+	}
+}

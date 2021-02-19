@@ -95,7 +95,8 @@ type App struct {
 	// i.e. foobar -o -v -> foobar -ov
 	UseShortOptionHandling bool
 
-	didSetup bool
+	didSetup        bool
+	withNonameFlags bool
 }
 
 // Tries to find out when this binary was compiled.
