@@ -1,5 +1,15 @@
 package gp
 
+//#GOGP_IFDEF SLICE_TYPE
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+//#GOGP_ENDIF //SLICE_TYPE
+
 //#GOGP_FILE_BEGIN
 //#GOGP_IGNORE_BEGIN ///gogp_file_begin
 //
@@ -36,10 +46,71 @@ func (this GOGPValueType) Show() string              { return "" } //
 ////////////////////////////////////////////////////////////////////////////////
 
 //#GOGP_IFDEF SLICE_TYPE
-// IntSlice wraps []GOGPValueType to satisfy flag.Value
+// GOGPGlobalNamePrefixSlice wraps []GOGPValueType to satisfy flag.Value
 type GOGPGlobalNamePrefixSlice struct {
 	slice      []GOGPValueType
 	hasBeenSet bool
+}
+
+// NewGOGPGlobalNamePrefixSlice makes an *GOGPGlobalNamePrefixSlice with default values
+func NewGOGPGlobalNamePrefixSlice(defaults ...GOGPValueType) *GOGPGlobalNamePrefixSlice {
+	return &GOGPGlobalNamePrefixSlice{slice: append([]GOGPValueType{}, defaults...)}
+}
+
+// TODO: Consistently have specific Set function for Int64 and Float64 ?
+// SetInt directly adds an integer to the list of values
+func (s *GOGPGlobalNamePrefixSlice) Append(value GOGPValueType) {
+	if !s.hasBeenSet {
+		s.slice = []GOGPValueType{}
+		s.hasBeenSet = true
+	}
+
+	s.slice = append(s.slice, value)
+}
+
+// Set parses the value into an integer and appends it to the list of values
+func (s *GOGPGlobalNamePrefixSlice) Set(value string) error {
+	if !s.hasBeenSet {
+		s.slice = []GOGPValueType{}
+		s.hasBeenSet = true
+	}
+
+	if strings.HasPrefix(value, slPfx) {
+		// Deserializing assumes overwrite
+		_ = json.Unmarshal([]byte(strings.Replace(value, slPfx, "", 1)), &s.slice)
+		s.hasBeenSet = true
+		return nil
+	}
+
+	tmp, err := strconv.ParseInt(value, 0, 64)
+	if err != nil {
+		return err
+	}
+
+	s.slice = append(s.slice, GOGPValueType(tmp))
+
+	return nil
+}
+
+// String returns a readable representation of this value (for usage defaults)
+func (s *GOGPGlobalNamePrefixSlice) String() string {
+	return fmt.Sprintf("%#v", s.slice)
+}
+
+// Serialize allows GOGPGlobalNamePrefixSlice to fulfill Serializer
+func (s *GOGPGlobalNamePrefixSlice) Serialize() string {
+	jsonBytes, _ := json.Marshal(s.slice)
+	return fmt.Sprintf("%s%s", slPfx, string(jsonBytes))
+}
+
+// Value returns the slice of ints set by this flag
+func (s *GOGPGlobalNamePrefixSlice) Value() []GOGPValueType {
+	return s.slice
+}
+
+// Get returns the slice of ints set by this flag
+func (s *GOGPGlobalNamePrefixSlice) Get() interface{} {
+	return *s
 }
 
 //#GOGP_ENDIF //SLICE_TYPE
