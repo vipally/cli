@@ -3,6 +3,7 @@ package cli
 import "flag"
 
 type PathFlag struct {
+	LogicName   string
 	Name        string
 	Aliases     []string
 	Usage       string
