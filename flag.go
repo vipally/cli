@@ -443,18 +443,23 @@ func flagFromEnvOrFile(envVars []string, filePath string) (val string, ok bool) 
 	return "", false
 }
 
-func flagSplitMultiValues(val string) []string {
-	return strings.Split(val, ",")
-}
-
-func mergeNames(name string, aliases *[]string) bool {
-	a := *aliases
-	if len(a) == 0 || a[len(a)-1] != name {
-		*aliases = append(*aliases, name)
+// flagValueName returns value name of a flag, 1:logicName, 2:"value"
+func flagValueName(logicName string) string {
+	if logicName != "" {
+		return logicName
 	}
-	return false
+	return defaultPlaceholder
 }
 
-func name(name string, aliases []string) []string {
-	return aliases
+// checkFlagName verify name and logicName aren't both empty
+func checkFlagName(name string, logicName string) bool {
+	return !(name == "" && logicName == "")
+}
+
+// flagLogicName returns logic name of a flag, 1:logicName, 2:name
+func flagLogicName(name string, logicName string) string {
+	if logicName != "" {
+		return logicName
+	}
+	return name
 }
