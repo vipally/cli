@@ -14,8 +14,6 @@ import (
 	"time"
 )
 
-const positionalFlagPrefix = "{positional#"
-
 const defaultPlaceholder = "value"
 
 var (
