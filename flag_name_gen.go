@@ -6,7 +6,7 @@ import (
 )
 
 // defaultNameGen is default positional flag name generator
-var defaultNameGen = NewNameGenerator(defaultNamePrefix)
+var defaultFlagNameGen = NewNameGenerator(defaultNamePrefix)
 
 const defaultNamePrefix = "positional"
 
