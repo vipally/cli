@@ -449,6 +449,14 @@ func flagValueName(logicName string) string {
 	return defaultPlaceholder
 }
 
+// flagLookupName returns name of a flag to lookup values, 1:name, 2:logicName
+func flagLookupName(name, logicName string) string {
+	if name != "" {
+		return name
+	}
+	return logicName
+}
+
 // checkFlagName verify name and logicName aren't both empty
 func checkFlagName(name string, logicName string) bool {
 	return !(name == "" && logicName == "")
